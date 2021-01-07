@@ -40,22 +40,33 @@ const pAequorFactory = (number, baseArray) => {
       const percentMatch = (numMatch / this.dna.length) * 100;
       console.log(`${this.specimenNum} and ${pAequor2.specimenNum} have ${percentMatch.toFixed(2)}% DNA in common.`)
     },
+    willLikelySurvive() {
+      let numMatch = 0;
+      for (let i = 0; i < this.dna.length; i++){
+        if (this.dna[i] === 'C' || this.dna[i] === 'G'){
+          numMatch ++;
+        }
+      }
+      const percentMatch = ( numMatch / this.dna.length) * 100;
+      if (percentMatch >= 60) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   };
 }
 
-//test factory function
-let testObj1 = pAequorFactory(1, mockUpStrand());
-let testObj2 = pAequorFactory(2, mockUpStrand());
-//testObj.mutate();
-/*
-console.log ("Starting Test Obj");
-console.log(testObj);
-testObj.mutate();
-console.log("=============");
-console.log ("Mutated Test Obj");
-console.log(testObj);
-*/
-testObj1.compareDNA(testObj2);
+let viableSamples = [];
+do {
+  const sample = pAequorFactory(viableSamples.length + 1, mockUpStrand());
+  if (sample.willLikelySurvive()){
+    viableSamples.push(sample);
+  }
+}
+while (viableSamples.length < 30);
+console.log("Viable Samples: " + viableSamples.length);
+console.log(viableSamples);
 
 
 
